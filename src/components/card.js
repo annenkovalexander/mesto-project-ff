@@ -1,8 +1,10 @@
 import { openModal } from "./modal";
 
+const cardTemplate = document.querySelector('#card-template').content;
+
 const cardCreate = (card, deleteHandler, likeHandler, imageHandler) => {
-    const cardTemplate = document.querySelector('#card-template').content;
     const cardPlacesItem = cardTemplate.querySelector('.places__item').cloneNode(true);
+    cardTemplate.addEventListener('click', (event) => deleteHandler(event, cardPlacesItem));
     const cardImage = cardPlacesItem.querySelector('.card__image');
     const cardDeleteButton = cardPlacesItem.querySelector('.card__delete-button');
     const cardTitle = cardPlacesItem.querySelector('.card__title');
@@ -24,18 +26,7 @@ const deleteHandler = (event, card) => {
 const likeHandler = (event, card) => {
     event.stopPropagation();
     const likeButton = card.querySelector('.card__like-button');
-    likeButton.classList.add('card__like-button_is-active')
+    likeButton.classList.toggle('card__like-button_is-active')
 }
 
-const imageHandler = (event, cardImage) => {
-    event.stopPropagation();
-    const popupTypeImage = document.querySelector('.popup_type_image');
-    const popupImage = popupTypeImage.querySelector('.popup__image');
-    const popupCaption = popupTypeImage.querySelector('.popup__caption');
-    popupImage.src = cardImage.src || "";
-    popupImage.alt = cardImage.alt || "";
-    popupCaption.textContent = event.target && event.target.offsetParent && event.target.offsetParent.innerText ? event.target.offsetParent.innerText : "";
-    openModal(event, popupTypeImage);
-}
-
-export {cardCreate, deleteHandler, likeHandler, imageHandler};
+export {cardCreate, deleteHandler, likeHandler };
