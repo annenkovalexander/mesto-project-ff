@@ -10,9 +10,7 @@ const config = {
 const getCardsData = async () => {
     return fetch(`${config.baseUrl}/cards`, 
         {
-            headers: {
-                authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e'
-            }
+            headers: config.headers
         })
         .then(res => {
             if (res.ok) {
@@ -20,18 +18,15 @@ const getCardsData = async () => {
             }
           })
         .then((result) => {
-            console.log("getCardsData result: ", result);
             return result;
         })
         .catch(err => console.log(err));;
-}
+    }
 
 const userDataGet = async () => {
     return fetch(`${config.baseUrl}/users/me`, 
         {
-            headers: {
-                authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e'
-            }
+            headers: config.headers
         })
         .then(res => {
             if (res.ok) {
@@ -39,18 +34,18 @@ const userDataGet = async () => {
             }
           })
         .then((result) => {
-            console.log("userDataGet result: ", result);
             return result;
         })
-        .catch(err => console.log(err));;
+        .catch(err => console.log(err));
 }
 
 export const getInitialData = () => Promise.all([getCardsData(), userDataGet()]).then(result => ({
     profileData: result[1] || {},
     cardsData: result[0] || {}
-}));
+}))
+.catch(err => console.log(err));
 
-export const updateUserProfileData = (name, about, modal, validationConfig) => {
+export const updateUserProfileData = async (name, about, modal, validationConfig) => {
     const submitButton = modal.querySelector(validationConfig.submitButtonSelector);
     submitButton.textContent = "Сохранение...";
     return fetch(`${config.baseUrl}/users/me`, {
@@ -75,15 +70,12 @@ export const updateUserProfileData = (name, about, modal, validationConfig) => {
     .catch(err => console.log(err));
 }
 
-export const addNewCard = async (name, link, modal, validationConfig) => {
+export const addNewCard = async (name, link, modal, submitForm, validationConfig) => {
     const submitButton = modal.querySelector(validationConfig.submitButtonSelector);
     submitButton.textContent = "Сохранение...";
     return fetch(`${config.baseUrl}/cards`, {
         method: 'POST',
-        headers: {
-            authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e',
-            'Content-Type': 'application/json'
-        },
+        headers: config.headers,
         body: JSON.stringify({
             name: name,
             link: link
@@ -103,10 +95,8 @@ export const addNewCard = async (name, link, modal, validationConfig) => {
 export const getCardLikesData = async (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'GET',
-        headers: {
-            authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e',
-            'Content-Type': 'application/json'
-        }}).then(res => {
+        headers: config.headers
+    }).then(res => {
             if (res.ok) {
               return res.json();
             }
@@ -117,11 +107,9 @@ export const getCardLikesData = async (cardId) => {
 
 export const deleteCard = async (cardId) => {
     return fetch(`${config.baseUrl}/cards/${cardId}`, {
-        method: 'DELETE',
-        headers: {
-            authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e',
-            'Content-Type': 'application/json'
-        }})
+            method: 'DELETE',
+            headers: config.headers
+        })
         .then(res => {
             if (res.ok) {
               return res.json();
@@ -134,10 +122,8 @@ export const deleteCard = async (cardId) => {
 export const likeCard = async (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'PUT',
-        headers: {
-            authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e',
-            'Content-Type': 'application/json'
-        }}).then(res => {
+        headers: config.headers 
+      }).then(res => {
             if (res.ok) {
               return res.json();
             }
@@ -149,10 +135,7 @@ export const likeCard = async (cardId) => {
 export const dislikeCard = async (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
-        headers: {
-            authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e',
-            'Content-Type': 'application/json'
-        }
+        headers: config.headers
     }).then(res => {
         if (res.ok) {
           return res.json();
@@ -165,13 +148,9 @@ export const dislikeCard = async (cardId) => {
 export const submitNewProfileAvatar = async (form, modal, validationConfig) => {
     const submitButton = modal.querySelector(validationConfig.submitButtonSelector);
     submitButton.textContent = "Сохранение...";
-    console.log("submitNewProfileAvatar form", form['avatar-link'].value);
     return fetch(`${config.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
-        headers: {
-            authorization: '40c6a7fb-a996-4c45-aa96-4765b718300e',
-            'Content-Type': 'application/json'
-        },
+        headers: config.headers,
         body: JSON.stringify({
             avatar: form['avatar-link'].value || ""
         })

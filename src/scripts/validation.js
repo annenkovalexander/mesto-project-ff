@@ -1,11 +1,8 @@
 export const clearValidation = (profileForm, validationConfig) => {
-    
     const inputFields = Array.from(profileForm.querySelectorAll(validationConfig.inputSelector));
-    console.log("clearValidation inputFields:", inputFields);
     const submitButton = profileForm.querySelector(validationConfig.submitButtonSelector);
     submitButtonStatus(submitButton, inputFields, validationConfig);
     inputFields.forEach(inputField => {
-        console.log("inputField: ", [inputField]);
         const errorElement = profileForm.querySelector(`.${inputField.id}-error`);
         errorElement.textContent = "";
         errorElement.classList.remove(validationConfig.errorClass);
@@ -27,8 +24,6 @@ const submitButtonStatus = (submitButton, inputFields, props) => {
 
 const inputFieldStatus = (formElement, inputFields, props) => {
     inputFields.forEach(inputField => {
-        console.log("inputField: ", [inputField]);
-        console.log("inputField: ", inputField.validity);
         const errorElement = formElement.querySelector(`.${inputField.id}-error`);
         inputField.setCustomValidity('');
         if (!isValid(inputField)) {
@@ -63,7 +58,6 @@ const setEventListeners = (formElement, props) => {
 }
 
 export const enableValidation = (props) => {
-    console.log("enableValidation");
     const formsList = Array.from(document.querySelectorAll(props.formSelector));
     formsList.forEach(form => setEventListeners(form, props));
 }

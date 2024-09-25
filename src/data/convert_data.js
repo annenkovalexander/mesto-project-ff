@@ -1,6 +1,5 @@
 export const convertCardsData = initialData => {
-    console.log("convertCardsData initialData: ", initialData);
-    return initialData.cardsData.map(card => 
+    return initialData && initialData.cardsData && Array.isArray(initialData.cardsData) ? initialData.cardsData.map(card => 
         ({
             id: card._id || "",
             name: card.name || "",
@@ -8,5 +7,5 @@ export const convertCardsData = initialData => {
             likes: card.likes || [],
             owner: card.owner || {}
         })
-    );
+    ) : [];
 }

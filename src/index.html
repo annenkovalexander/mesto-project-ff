@@ -14,7 +14,12 @@
   </header>
   <main class="content">
     <section class="profile page__section">
-      <img class="profile__image" src = "./images/avatar.jpg"></img>
+      <picture class="profile__picture">
+        <img class="profile__image" src = "./images/avatar.jpg" />
+        <div class="overlay">
+        </div>
+        <img class="profile__image-change-avatar" src="./images/pen.svg" alt="Изменить аватар">
+      </picture>
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button class="profile__edit-button" type="button"></button>

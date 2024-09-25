@@ -3,7 +3,6 @@ import { deleteCard, likeCard, dislikeCard } from "../data/integrations_maintain
 const cardTemplate = document.querySelector('#card-template').content;
 
 const cardCreate = (card, deleteHandler, likeHandler, imageHandler, profileData) => {
-    console.log("cardCreate profileData: ", profileData);
     const cardPlacesItem = cardTemplate.querySelector('.places__item').cloneNode(true);
     cardTemplate.addEventListener('click', (event) => deleteHandler(event, cardPlacesItem));
     const cardImage = cardPlacesItem.querySelector('.card__image');
@@ -27,9 +26,7 @@ const cardCreate = (card, deleteHandler, likeHandler, imageHandler, profileData)
 
 const deleteHandler = async (event, cardPlacesItem, card) => {
     event.stopPropagation();
-    console.log("deleteHandler card: ", card);
     const deleteResult = await deleteCard(card.id);
-    console.log("deleteHandler deleteResult: ", deleteResult.message.toLowerCase());
     if (deleteResult && deleteResult.message && deleteResult.message.toLowerCase().includes('пост'))
         cardPlacesItem.remove();
 }
@@ -40,8 +37,7 @@ const likeHandler = async (event, cardPlacesItem, card) => {
     const cardLikeCount = cardPlacesItem.querySelector('.card__like-count');
     const classCheck =  Array.from(likeButton.classList).some(className => className === 'card__like-button_is-active');
     const likeUpdateResult = classCheck ? await dislikeCard(card.id) : await likeCard(card.id);
-    cardLikeCount.textContent = likeUpdateResult.likes.length || 0;
-    console.log("likeHandler likeUpdateResult: ", likeUpdateResult);
+    cardLikeCount.textContent = likeUpdateResult && likeUpdateResult.likes && Array.isArray(likeUpdateResult.likes) ? likeUpdateResult.likes.length : 0;
     likeButton.classList.toggle('card__like-button_is-active');
 }
 

@@ -22,6 +22,7 @@ const profileTitle = contentObject.querySelector('.profile__title');
 const profileDescription = contentObject.querySelector('.profile__description');
 const profileAvatarModal = document.querySelector('.popup_type_avatar');
 const profileAvatar = contentObject.querySelector('.profile__image');
+const profileAvatarChangeButton = contentObject.querySelector('.profile__image-change-avatar');
 const profileAvatarForm = document.forms['new-avatar'];
 const profileAvatarCloseButton = profileAvatarModal.querySelector('.popup__close');
 const editForm = document.forms['edit-profile'];
@@ -78,7 +79,6 @@ const submitEditProfileForm = async (event, profileModal, editForm) => {
 const submitNewCard = async (event, newCardModal, submitForm) => {
     event.preventDefault();
     const newCardData = await addNewCard(submitForm['place-name'].value, submitForm['link'].value, newCardModal, submitForm, validationConfig);
-    console.log("submitNewCard newCardData: ", newCardData);
     const card = {
         id: newCardData._id || "",
         name: newCardData.name || "",
@@ -95,7 +95,6 @@ const submitNewCard = async (event, newCardModal, submitForm) => {
 const submitProfileAvatar = async (event, submitForm, modal) => {
     event.preventDefault();
     const submitResult = await submitNewProfileAvatar(submitForm, modal, validationConfig);
-    console.log("submitProfileAvatar submitResult: ", submitResult);
     if (submitResult && submitResult.avatar)
         profileAvatar.src = submitResult.avatar
     closeModal(modal);
@@ -126,6 +125,13 @@ profileModalCloseButton.addEventListener('click', () => {
 profileModal.addEventListener('click', (event) => outsidePopupCloseHandler(event, profileModal));
 
 profileAvatar.addEventListener('click', () => {
+    openModal(profileAvatarModal);
+    clearValidation(profileAvatarForm, validationConfig);
+})
+
+
+
+profileAvatarChangeButton.addEventListener('click', () => {
     openModal(profileAvatarModal);
     clearValidation(profileAvatarForm, validationConfig);
 })
