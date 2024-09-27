@@ -9,3 +9,9 @@ export const convertCardsData = initialData => {
         })
     ) : [];
 }
+
+export const resultCheck = res => {
+    if (res.ok && res.status && res.status === 200)
+        return true;
+    return false;
+}
