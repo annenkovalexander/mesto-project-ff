@@ -9,18 +9,20 @@ const config = {
   }
 
 
+const resultGet = res => {
+    if (resultCheck(res)) {
+      return res.json();
+    } else {
+      Promise.reject('Возникла ошибка!');
+    }
+}
+
 const getCardsData = () => {
     return fetch(`${config.baseUrl}/cards`, 
         {
             headers: config.headers
         })
-        .then(res => {
-            if (resultCheck(res)) {
-              return res.json();
-            } else {
-              Promise.reject('Возникла ошибка!');
-            }
-          })
+        .then(resultGet);
     }
 
 const userDataGet = () => {
@@ -28,13 +30,7 @@ const userDataGet = () => {
         {
             headers: config.headers
         })
-        .then(res => {
-            if (resultCheck(res)) {
-              return res.json();
-            } else {
-              Promise.reject('Возникла ошибка!');
-            }
-          })
+        .then(resultGet);
 }
 
 export const getInitialData = () => Promise.all([getCardsData(), userDataGet()]);
@@ -50,13 +46,7 @@ export const updateUserProfileData = (name, about) => {
             name: name,
             about: about
         })
-    }).then(res => {
-        if (resultCheck(res)) {
-          return res.json();
-        } else {
-          Promise.reject('Возникла ошибка!');
-        }
-      });
+    }).then(resultGet);
 }
 
 export const addNewCard = (name, link) => {
@@ -67,24 +57,14 @@ export const addNewCard = (name, link) => {
             name: name,
             link: link
         })
-    }).then(res => {
-        if (resultCheck(res)) {
-          return res.json();
-        }
-      })
+    }).then(resultGet);
 }
 
 export const getCardLikesData = cardId => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'GET',
         headers: config.headers
-    }).then(res => {
-            if (resultCheck(res)) {
-              return res.json();
-            } else {
-              Promise.reject('Возникла ошибка!');
-            }
-          });
+    }).then(resultGet);
 }
 
 export const deleteCard = cardId => {
@@ -92,39 +72,21 @@ export const deleteCard = cardId => {
             method: 'DELETE',
             headers: config.headers
         })
-        .then(res => {
-            if (resultCheck(res)) {
-              return res.json();
-            } else {
-              Promise.reject('Возникла ошибка!');
-            }
-          });
+        .then(resultGet);
 }
 
 export const likeCard = cardId => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: config.headers 
-      }).then(res => {
-          if (resultCheck(res)) {
-            return res.json();
-          } else {
-            Promise.reject('Возникла ошибка!');
-          }
-        });
+      }).then(resultGet);
 }
 
 export const dislikeCard = cardId => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers
-    }).then(res => {
-        if (resultCheck(res)) {
-          return res.json();
-        } else {
-          Promise.reject('Возникла ошибка!');
-        }
-      });
+    }).then(resultGet);
 }
 
 export const submitNewProfileAvatar = form => {
@@ -134,12 +96,6 @@ export const submitNewProfileAvatar = form => {
         body: JSON.stringify({
             avatar: form['avatar-link'].value || ""
         })
-    }).then(res => {
-        if (resultCheck(res)) {
-          return res.json();
-        } else {
-          Promise.reject('Возникла ошибка!');
-        }
-      });
+    }).then(resultGet);
 }
 

@@ -12,8 +12,7 @@ const cardCreate = (card, deleteHandler, likeHandler, imageHandler, profileData)
     const cardTitle = cardPlacesItem.querySelector('.card__title');
     const cardLikeButton = cardPlacesItem.querySelector('.card__like-button');
     const cardLikeCount = cardPlacesItem.querySelector('.card__like-count');
-    console.log("cardCreate card: ", card, " ", card.owner && card.owner._id && profileData._id && card.owner._id === profileData._id);
-    if (card.owner && card.owner._id && profileData._id && card.owner._id === profileData._id)
+    if (card.owner._id === profileData._id)
         cardDeleteButton.classList.remove("card__delete-button-hidden");
     if (card.likes.some(like => like._id === profileData._id))
         cardLikeButton.classList.add('card__like-button_is-active');

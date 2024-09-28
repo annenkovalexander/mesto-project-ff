@@ -83,9 +83,9 @@ getInitialData().then(result => {
             profileDescription.textContent = updateData.about;
             submitButton.disabled = true;
             clearValidation(profileModal, validationConfig);
+            closeModal(profileModal);
         }).catch(err => console.log(err))
         .finally(() => {
-            closeModal(profileModal);
             submitButton.textContent = 'Сохранить';
         })
     }
@@ -107,14 +107,13 @@ getInitialData().then(result => {
             const item = cardCreate(card, deleteHandler, likeHandler, imageHandler, initialData.profileData);
             placesList.prepend(item);
             submitForm.reset();
-            submitButton.textContent = 'Сохранить';
             submitButton.disabled = true;
             clearValidation(newCardModal, validationConfig);
+            closeModal(newCardModal);
         })
         .catch(err => console.log(err))
         .finally(() => {
             submitButton.textContent = 'Сохранить';
-            closeModal(newCardModal)
         });  
     }
     
@@ -126,15 +125,14 @@ getInitialData().then(result => {
         submitNewProfileAvatar(submitForm, modal, validationConfig).then(submitResult => {
             if (submitResult && submitResult.avatar){
                 profileAvatar.src = submitResult.avatar;
-                submitButton.textContent = 'Сохранить';
                 submitButton.disabled = true;
             }
             submitForm.reset();
             clearValidation(submitForm, validationConfig);
+            closeModal(modal);
         }).catch(err => console.log(err))
         .finally(() => {
             submitButton.textContent = 'Сохранить';
-            closeModal(modal)
         });
     }
     
